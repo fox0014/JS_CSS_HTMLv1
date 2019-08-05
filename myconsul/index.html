@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script
+  src="http://code.jquery.com/jquery-3.4.1.js"
+  integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+  crossorigin="anonymous"></script>
+<script type="text/javascript" src="js/consultool.js"></script>
+    <style>
+        * { padding: 0; margin: 0; }
+        table {
+            border-collapse: collapse;
+            border-spacing: 0;
+            border: 1px solid #c0c0c0;
+        }
+        th,td {
+            border: 1px solid #d0d0d0;
+            color: #404060;
+            padding: 10px;
+        }
+        th {
+            background-color: green;
+            font: bold 16px "微软雅黑";
+            color: #fff;
+        }
+        td {
+            font: 14px "微软雅黑";
+        }
+        tbody tr {
+            background-color: #f0f0f0;
+        }
+        tbody tr:hover {
+            cursor: pointer;
+            background-color: #fafafa;
+        }
+        a{
+            color: #47C6DB;
+        }
+    </style>
+<script>
+function appendText()
+{
+	$("#table_data").empty();
+	
+urlitem = JSON.parse(consul_get('http://10.68.60.59:8500/v1/catalog/services',"demo",false));
+for(var key in urlitem){
+	var localurl = "http://10.68.60.59:8500/v1/catalog/service/"+key
+	xiongxiong = consul_get(localurl,"demo",false);
+	xiongxiong1 = JSON.parse(xiongxiong);
+	len =xiongxiong1.length;
+	for (var i=0;i<len;i++)
+	{
+						var $trTemp = $("<tr></tr>");
+					//往行里面追加 td单元格
+					$trTemp.append("<td>"+ xiongxiong1[i].ID +"</td>");
+					$trTemp.append("<td>"+ xiongxiong1[i].Node +"</td>");
+					$trTemp.append("<td>"+ xiongxiong1[i].Address +"</td>");
+					$trTemp.append("<td>"+ xiongxiong1[i].ServicePort +"</td>");
+					$trTemp.append("<td><a>"+ xiongxiong1[i].ServiceName +"</a></td>");
+					$trTemp.appendTo("#table_data");
+	//var txt1="<p>Text.</p>";              // 以 HTML 创建新元素
+	//var txt2=$("<p></p>").text(xiongxiong1[i]['ServiceName']);  // 以 jQuery 创建新元素
+	//$("body").append(txt2);        // 追加新元素
+	}	
+
+}
+
+
+}
+</script>
+</head>
+<body>
+
+    <table>
+        <thead>
+            <tr class="table_header">
+                <th>服务ID</th>
+                <th>服务主机</th>
+                <th>服务地址</th>
+				<th>服务端口</th>
+                <th>服务名称</th>
+            </tr>
+        </thead>
+        <tbody id="table_data"></tbody>
+    </table>
+<button onclick="appendText()">are u ok</button>
+
+</body>
+</html>
