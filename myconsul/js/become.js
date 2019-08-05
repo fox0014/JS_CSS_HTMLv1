@@ -3,7 +3,7 @@ window.onload = appendText;
 
 
 var status = true;
-DiGui = appendText
+DiGui = appendTextasynctf
 $.ajax({ 
  success: function (returnValue) {       
   if (status) {
